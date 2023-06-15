@@ -1,12 +1,6 @@
 <?php
 
-use App\Http\Controllers\announceController;
-use App\Http\Controllers\CategorieController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\loginController;
-use App\Http\Controllers\logoutController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\registerController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,3 +13,31 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+//JournalIpClient is middleware that save client ip in laravel log
+Route::get('/', function(){
+    return view('home');
+})->middleware('JournalIpClient');
+
+//route return login view
+Route::get('/login', function(){
+    return view('login');
+})->name('login');
+
+//route handel login form 
+//we have one user and the username and password is admin
+Route::post('/login', function(Request $request){
+    if($request->username == 'admin' && $request->password == 'admin')
+        session()->put('auth', true);
+        return redirect('/dashboard');
+    return redirect()->route('login');
+})->name('action.login');
+
+//dashbordAccessMiddleware is middleware that check if user is connected or not if not redirect the user to the login page
+//route return dashboard view
+route::get('/dashboard', function(){
+    session()->put('time', time());
+    return view('dashboard');
+})->name('dashboard')->middleware(['dashbordAccessMiddleware', 'SessionTimeoutMiddleware']);
+
+//SessionTimeoutMiddleware is a middleware that make the youser logout if he stay more than 1 minute without any action
