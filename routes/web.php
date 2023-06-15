@@ -19,3 +19,9 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+
+//JournalIpClient is middleware that save client ip in laravel log
+Route::get('/', function(){
+    return view('home');
+})->middleware('JournalIpClient');
