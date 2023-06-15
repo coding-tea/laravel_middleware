@@ -7,6 +7,6 @@
     <title>dashboard</title>
 </head>
 <body>
-    dashboard
+    <h1>dashboard</h1>
 </body>
 </html>

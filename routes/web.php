@@ -28,14 +28,16 @@ Route::get('/login', function(){
 //we have one user and the username and password is admin
 Route::post('/login', function(Request $request){
     if($request->username == 'admin' && $request->password == 'admin')
-    return redirect()->route('dashboard')->with([
-        'auth' => 'true'
-    ]);
-});
+        session()->put('auth', true);
+        return redirect('/dashboard');
+    return redirect()->route('login');
+})->name('action.login');
 
 //dashbordAccessMiddleware is middleware that check if user is connected or not if not redirect the user to the login page
 //route return dashboard view
 route::get('/dashboard', function(){
     session()->put('time', time());
     return view('dashboard');
-})->middleware('dashbordAccessMiddleware')->name('dashboard');
+})->name('dashboard')->middleware(['dashbordAccessMiddleware', 'SessionTimeoutMiddleware']);
+
+//SessionTimeoutMiddleware is a middleware that make the youser logout if he stay more than 1 minute without any action

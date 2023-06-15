@@ -65,5 +65,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'JournalIpClient' => Middleware\JournalIpClient::class,
         'dashbordAccessMiddleware' => Middleware\dashbordAccessMiddleware::class,
+        'SessionTimeoutMiddleware' => Middleware\SessionTimeoutMiddleware::class,
     ];
 }
